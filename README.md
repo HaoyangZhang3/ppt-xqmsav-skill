@@ -18,6 +18,22 @@
 
 成片：`红色天空飞鸟 → 飞鸟落点化为楼群 → 拱门俯冲穿入转子 → 叶片翻卷成膜骨架 → 垂直俯拍道路化水面 → 拱桥升起 → 桥板化作飞鸟 → 回到起点`
 
+## 三套配色主题
+
+| 主题 | 配色 | 风格词关键词 | 适用 |
+|---|---|---|---|
+| 平面海报风 | 红 / 白 / 黑 | `flat vector screen-print poster, crimson red, no gradients` | 城市地标、历史感、爆款 |
+| 暗场·核能蓝金 | 深空蓝黑 / 电光钴蓝 / 香槟金 | `dark cinematic poster, midnight navy, electric cobalt blue rim light, champagne gold` | 电力能源、科技、沉稳高级 |
+| 暗场·酒红 | 近黑 / 深酒红 / 暖黄灯源 | `deep burgundy on near-black, warm amber key light` | 悬疑、复古叙事 |
+
+> 换暗场风格必须**重新生成 4 张关键帧**，本地亮度重映射分不清"白天空"与"白建筑"，容易过曝成白块。详见 `references/color-themes.md`。
+
+蓝金版关键帧（华北电力大学北京校区）：
+
+| 深蓝夜空 | 蓝膜金骨架 |
+|---|---|
+| ![](assets/case-ncepu-bluegold/02-深蓝夜空飞鸟.jpg) | ![](assets/case-ncepu-bluegold/04-蓝膜金骨架俯拍.jpg) |
+
 ## 五步法
 
 1. **设计场景链** — 同城 4~6 个地标排成环形，起点即终点；相邻两场景必须存在能互相变形的相似元素
