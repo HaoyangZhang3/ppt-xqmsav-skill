@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 生成的中间产物
+gen/
+chk/
+video_frames/
+effect_frames/
+*.mp4
+*.zip
+
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini
