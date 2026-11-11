@@ -22,6 +22,14 @@ XFADE = 10  # 交叉淡化帧数
 FONT_CN = "C:/Windows/Fonts/msyhbd.ttc"
 FONT_CN_L = "C:/Windows/Fonts/msyh.ttc"
 
+# 字幕/标题配色主题(BGR)
+ACCENTS = {
+    "gold": {"main": (106, 190, 227), "sub": (120, 170, 195)},   # 香槟金 #E3BE6A / 淡金蓝
+    "white": {"main": (255, 255, 255), "sub": (232, 232, 232)},
+    "red": {"main": (235, 235, 245), "sub": (230, 230, 230)},
+}
+ACCENT = ACCENTS["gold"]
+
 # 每段的地标字幕(中/英)
 SUBTITLES = [
     ("北京校区主楼", "NCEPU MAIN BUILDING"),
@@ -90,10 +98,19 @@ def fade(a, b, i, n):
 
 
 def main():
-    out_path = sys.argv[1]
-    segs = sys.argv[2:]
+    global W, H, ACCENT
+    args = sys.argv[1:]
+    if "--w" in args:
+        W = int(args[args.index("--w") + 1])
+    if "--h" in args:
+        H = int(args[args.index("--h") + 1])
+    if "--accent" in args:
+        ACCENT = ACCENTS[args[args.index("--accent") + 1]]
+    segs = [a for a in args[1:] if a.endswith(".mp4")]
     if not segs:
         raise SystemExit(__doc__)
+    out_path = args[0]
+    print(f"输出尺寸 {W}x{H} / 配色 {args[args.index('--accent')+1] if '--accent' in args else 'gold'}")
 
     clips = [load(s) for s in segs]
     print("段数:", len(clips), "各段帧数:", [len(c) for c in clips])
@@ -129,17 +146,17 @@ def main():
         # 地标字幕:段内后 65% 时间出现,前段淡入
         if local > 0.35:
             a = min(1.0, (local - 0.35) / 0.15)
-            f = draw_text(frame, cn, (56, H - 122), 34, (255, 255, 255), alpha=a, panel=(22, a))
-            f = draw_text(f, en, (58, H - 74), 19, (232, 232, 232), alpha=a, panel=(18, a))
+            f = draw_text(frame, cn, (64, H - 152), 44, ACCENT["main"], alpha=a, panel=(26, a))
+            f = draw_text(f, en, (66, H - 92), 24, ACCENT["sub"], alpha=a, panel=(20, a))
             frame = f
 
         # 主标题:仅第一段前 3 秒,带深色衬底
         if idx < int(3.0 * FPS):
             a = min(1.0, idx / (0.8 * FPS))
-            t1 = draw_text(frame, TITLE[0], (W - 56, 52), 44, (255, 255, 255),
-                           anchor="rt", alpha=a, panel=(26, a))
-            t2 = draw_text(t1, TITLE[1], (W - 58, 108), 21, (235, 235, 235),
-                           anchor="rt", alpha=a, panel=(20, a))
+            t1 = draw_text(frame, TITLE[0], (W - 64, 58), 52, ACCENT["main"],
+                           anchor="rt", alpha=a, panel=(30, a))
+            t2 = draw_text(t1, TITLE[1], (W - 66, 126), 25, ACCENT["sub"],
+                           anchor="rt", alpha=a, panel=(24, a))
             frame = t2
 
         writer.write(frame)

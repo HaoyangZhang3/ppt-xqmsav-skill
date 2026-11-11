@@ -64,7 +64,12 @@ description: 制作 AI"一镜到底"变形转场视频（红黑白海报风格�
 ### scripts/
 - `extract_frames.py` — 用 OpenCV 对视频等间隔抽帧并拼成带时间标注的九宫格检查图，用于检查转场衔接。用法：`python extract_frames.py <video.mp4> [输出目录] [帧数]`。
 - `palette_unify.py` — 把一批生成图统一到 红/白/黑 三色海报调，消除各图天空/地面颜色差异，防止转场跳色。用法：`python palette_unify.py <in.png> <out.png>`。
-- `assemble_video.py` — 成片合成：裁掉模型角标、段间交叉淡化消除接缝、叠加中文主标题与地标字幕、输出 1280x720 mp4。用法：`python assemble_video.py <out.mp4> <seg1.mp4> [seg2.mp4 ...]`（分段顺序即播放顺序）。
+- `palette_recolor.py` — 按方案（`bluegold` 核能蓝金 / `darkred` 暗场酒红）把海报图整体换色相。注意：**换暗场风格应优先用 AI 重画**，本地亮度重映射分不清"白天空"与"白建筑"，易过曝成白块，详见 `references/color-themes.md`。
+- `assemble_video.py` — 成片合成：裁掉模型角标、段间交叉淡化消除接缝、叠加中文主标题与地标字幕。用法：`python assemble_video.py <out.mp4> <seg1.mp4> [seg2.mp4 ...] [--w 1920] [--h 1080] [--accent gold|white|red]`。`--accent` 控制字幕配色（gold=香槟金、white=白、red=酒红）。
+
+### 配色主题
+
+三套成型主题（平面海报红白黑 / 暗场核能蓝金 / 暗场酒红）的完整风格词、配色比例与换风格动作清单，见 `references/color-themes.md`。**换风格 = 重新生成 4 张关键帧 + 替换 4 段提示词里的颜色词**，成本低（4 张图约 30-40 credits）且效果远好于本地换色。
 
 ## 生成工具参数坑（实测）
 
